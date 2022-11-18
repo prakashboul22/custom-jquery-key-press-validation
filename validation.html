@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Jquery Validation Form</title>
+
+    <!-- Bootystrap 5 CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Jquery Custom Validation</h5>
+
+          <!-- Floating Labels Form -->
+          <form class="row g-3">
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  id="name"
+                  placeholder="Your Name"
+                />
+                <label for="floatingName">Your Name</label>
+                <span class="text-danger" id="nameError"></span>
+                <span class="text-success" id="nameSuccess"></span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control phone"
+                  name="phone"
+                  id="phone"
+                  placeholder="Your Name"
+                />
+                <label for="floatingName">Phone No</label>
+                <span class="text-danger" id="phoneError"></span>
+                <span class="text-success" id="phoneSuccess"></span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control email"
+                  name="email"
+                  placeholder="Your Email"
+                />
+                <label for="floatingEmail">Your Email</label>
+                <span class="text-danger" id="emailError"></span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="Password"
+                />
+                <label for="floatingPassword">Password</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-floating">
+                <textarea
+                  class="form-control"
+                  placeholder="Address"
+                  name="address"
+                  style="height: 100px"
+                ></textarea>
+                <label for="floatingTextarea">Address</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="col-md-12">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="city"
+                    placeholder="City"
+                  />
+                  <label for="floatingCity">City</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="pincode"
+                  placeholder="Zip"
+                />
+                <label for="floatingZip">Pin Code</label>
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="reset" class="btn btn-secondary">Reset</button>
+            </div>
+          </form>
+          <!-- End floating Labels Form -->
+        </div>
+      </div>
+    </div>
+
+    <!--Bootstrap 5 js CDN -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+    <!--Jquery CDN -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Validation -->
+    <script type="text/javascript">
+      $(function () {
+        // Name
+        $("#name").keypress(function (e) {
+          var keyCode = e.keyCode || e.which;
+
+          $("#nameError").html("");
+
+          //Regex for Valid Characters i.e. Alphabets.
+          var regex = /^[A-Za-z]+$/;
+
+          //Validate TextBox value against the Regex.
+          var isValid = regex.test(String.fromCharCode(keyCode));
+          if (!isValid) {
+            $("#nameError").html("Only Alphabets allowed.");
+          } else {
+            $("#nameSuccess").html("Good !!");
+          }
+
+          return isValid;
+        });
+
+        // Phone Number
+        $(".phone").on("keypress", function (e) {
+          var $this = $(this);
+          var regex = new RegExp("^[0-9\b]+$");
+          var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+
+          $("#phoneError").html("");
+          // for 10 digit number only
+          if ($this.val().length > 9) {
+            e.preventDefault();
+            $("#phoneError").html("Phone Number allowed 10 digit.");
+            // return false;
+          }
+          if (e.charCode < 54 && e.charCode > 47) {
+            if ($this.val().length == 0) {
+              $("#phoneError").html("Phone Number First digit Start 6, 8 & 9.");
+
+              //   return false;
+            } else {
+              $("#phoneSuccess").html("Good !!");
+              //   return true;
+            }
+          }
+          if (regex.test(str)) {
+            //  $("#phoneError").html("Only allowed number.");
+            return true;
+          }
+          e.preventDefault();
+          $("#phoneError").html("Only allowed number.");
+          //   return false;
+        });
+
+        // Email
+       
+        $(".email").on("keypress", function () {
+          var re = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(
+            this.value
+          );
+          if (!re) {
+            $("#emailError").html("Enter Valid Email");
+          } else {
+            $("#emailError").html("Good !!");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
